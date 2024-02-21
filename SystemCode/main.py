@@ -5,6 +5,7 @@ import math
 
 
 
+from DistSensor import DistSensor
 from DriveTrain import DriveTrain
 from Gyroscope import Gyroscope
 from Timer import Timer
@@ -17,11 +18,21 @@ UPDATERATE = 0.05
 
 BP = brickpi3.BrickPi3()
 
+# set up gyroscope
+gyro = Gyroscope(5)
+gyro.zeroGyro()
+gyro.updateGyro()
+
+
+# distance sensors
+leftD1 = DistSensor(3)
+leftD2 = DistSensor(4)
+rightD = DistSensor(8)
 
 #set up drive motors
 rightMotor = BP.PORT_B
 leftMotor = BP.PORT_C
-drive = DriveTrain(BP, leftMotor, rightMotor, 1, 1)
+drive = DriveTrain(BP, leftMotor, rightMotor, -5, -5)
 drive.resetEncoders()
 
 
@@ -29,6 +40,9 @@ drive.resetEncoders()
 try:
     time.sleep(1)
     while True:
+        #drive.setCM(10,10)
+        print(gyro.getPosition())
+        gyro.updateGyro()
         time.sleep(UPDATERATE)
 
 
