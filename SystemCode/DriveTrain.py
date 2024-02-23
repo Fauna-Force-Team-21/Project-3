@@ -28,6 +28,13 @@ class DriveTrain:
         self.BP.set_motor_power(self.mPortL, left)
         self.BP.set_motor_power(self.mPortR, right)
 
+    def turnAngle(self, setpoint, currAngle):
+        p = 0.4
+        error = (setpoint - currAngle)
+        power = error * p
+        self.setCM(power, -power)
+        return abs(error) < 0.5
+
     def resetEncoders(self):
         self.BP.offset_motor_encoder(self.mPortL, self.BP.get_motor_encoder(self.mPortL))
         self.BP.offset_motor_encoder(self.mPortR, self.BP.get_motor_encoder(self.mPortR))
