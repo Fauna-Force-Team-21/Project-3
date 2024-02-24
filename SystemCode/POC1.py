@@ -50,9 +50,11 @@ try:
         d2 = leftD2.getDistance()
         error = d1-d2
         print(value)
+        if error > 20:
+            error = 0
         #print(error)
         power = pid * (error)
-        drive.setCM(6-power, 6+power)
+        drive.setCM(8-power, 8+power)
         if(value < 10):
             if(leftD2.getDistance() > rightD.getDistance()):
                 while not drive.turnAngle(-90, gyro.getPosition()):
