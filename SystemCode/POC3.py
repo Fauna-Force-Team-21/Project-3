@@ -9,6 +9,7 @@ from DistSensor import DistSensor
 from DriveTrain import DriveTrain
 from Gyroscope import Gyroscope
 from Timer import Timer
+from AnalogIR import AnalogIR
 
 
 # set up sys variables
@@ -29,6 +30,9 @@ leftD1 = DistSensor(3)
 leftD2 = DistSensor(4)
 rightD = DistSensor(8)
 
+# set up IR Sensor
+ir = AnalogIR("A2")
+
 #set up drive motors
 rightMotor = BP.PORT_B
 leftMotor = BP.PORT_C
@@ -38,41 +42,14 @@ drive.resetEncoders()
 
 # run program here
 try:
-    x = float(input("X Position: "))
-    y = float(input("Y Position: "))
-
     time.sleep(1)
-
-    speed = 5
-    # turn 180 for the y direction
-    mult = 1
-    if(y < 0):
-        mult = -1
-    currDist = drive.getLeftCM()
-
-    drive.setCM(mult * speed,mult * speed)
-    while abs(drive.getLeftCM() - currDist) < abs(y):
-        time.sleep(UPDATERATE)
-    
-    drive.setCM(0,0)
-    
-    if(x > 0):
-        angle = 85
-    elif(x < 0):
-        angle = -85
-
-    while not drive.turnAngle(angle, gyro.getPosition()):
-        print("turning")
+    while True:
+        #drive.setCM(10,10)
+        #print(gyro.getMagValue())
+        print("val: " + str(ir.getAvg()) + " Near: " + str(ir.isNear()))
         gyro.updateGyro()
         time.sleep(UPDATERATE)
 
-    drive.setCM(speed,speed)
-    currDist = drive.getLeftCM()
-
-    while abs(drive.getLeftCM() - currDist) < abs(x):
-        time.sleep(UPDATERATE)
-        
-    drive.setCM(0,0)
 
 
 
