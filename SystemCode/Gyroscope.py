@@ -8,13 +8,13 @@ class Gyroscope():
     NUMSTORED = None
     myIMU = None
     magOffset = 0
-    currAngle = 0
     aVelocityList = [0]
     magList = [0]
     accelList = [0]
     lastTime = time.time()
     deltaTime = 0
     position = 0
+    angleRatio = 1.192
     offset = 0
     yaw = "z"
 
@@ -44,7 +44,7 @@ class Gyroscope():
 
         # position values
         avgVel = self.aVelocityList[-1][self.yaw]
-        self.position += (avgVel - self.offset) * self.deltaTime
+        self.position += ((avgVel - self.offset) * self.deltaTime * self.angleRatio)
 
         # updates acceleration values
         accelVal = self.myIMU.readAccel()

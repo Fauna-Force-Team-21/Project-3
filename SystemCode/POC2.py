@@ -43,7 +43,7 @@ try:
         #drive.setCM(10,10)
         toAngle = float(input("Turn to Angle: "))
         while not drive.turnAngle(toAngle, gyro.getPosition()):
-            print("turning")
+            print("turning:", gyro.getPosition())
             gyro.updateGyro()
             time.sleep(UPDATERATE)
         #print(gyro.getPosition())

@@ -57,9 +57,9 @@ try:
     drive.setCM(0,0)
     
     if(x > 0):
-        angle = 85
+        angle = 90
     elif(x < 0):
-        angle = -85
+        angle = -90
 
     while not drive.turnAngle(angle, gyro.getPosition()):
         print("turning")
