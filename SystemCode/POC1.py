@@ -52,7 +52,7 @@ try:
         print(value)
         #print(error)
         power = pid * (error)
-        drive.setCM(6-power, 6+power)
+        drive.setCM(8-power, 8+power)
         if(value < 10):
             if(leftD2.getDistance() > rightD.getDistance()):
                 while not drive.turnAngle(-85, gyro.getPosition()):
