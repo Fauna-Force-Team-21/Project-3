@@ -32,6 +32,7 @@ class DriveTrain:
         p = 0.4
         error = (setpoint - currAngle)
         power = error * p
+        power = min(max(power, -3), 3)
         self.setCM(power, -power)
         return abs(error) < 0.5
 

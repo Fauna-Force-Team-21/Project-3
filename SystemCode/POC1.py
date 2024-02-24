@@ -40,7 +40,6 @@ drive.resetEncoders()
 try:
     pid = 0.65
     value = BP.get_sensor(BP.PORT_1)
-    print(value)
     time.sleep(1)
     while True:
         #drive.setCM(10,10)
@@ -53,15 +52,15 @@ try:
         print(value)
         #print(error)
         power = pid * (error)
-        drive.setCM(4-power, 4+power)
-        if(value < 15):
+        drive.setCM(6-power, 6+power)
+        if(value < 10):
             if(leftD2.getDistance() > rightD.getDistance()):
-                while not drive.turnAngle(-90, gyro.getPosition()):
+                while not drive.turnAngle(-85, gyro.getPosition()):
                     print("turning left")
                     gyro.updateGyro()
                     time.sleep(UPDATERATE)
             elif(leftD2.getDistance() < rightD.getDistance()):
-                while not drive.turnAngle(90, gyro.getPosition()):
+                while not drive.turnAngle(85, gyro.getPosition()):
                     print("turning right")
                     gyro.updateGyro()
                     time.sleep(UPDATERATE)
