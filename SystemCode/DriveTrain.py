@@ -25,8 +25,8 @@ class DriveTrain:
         self.BP.set_motor_dps(self.mPortR, self.rightMult * CMRight / self.degreeToCM * self.gRatio)
 
     def setPower(self, left, right):
-        self.BP.set_motor_power(self.mPortL, left)
-        self.BP.set_motor_power(self.mPortR, right)
+        self.BP.set_motor_power(self.mPortL, left * self.leftMult)
+        self.BP.set_motor_power(self.mPortR, right * self.rightMult)
 
     def turnAngle(self, setpoint, currAngle):
         p = 0.4
