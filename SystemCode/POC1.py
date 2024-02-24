@@ -50,6 +50,8 @@ try:
         d2 = leftD2.getDistance()
         error = d1-d2
         print(value)
+        if error > 20:
+            error = 0
         #print(error)
         power = pid * (error)
         drive.setCM(8-power, 8+power)
