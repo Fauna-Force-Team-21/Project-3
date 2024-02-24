@@ -38,41 +38,46 @@ drive.resetEncoders()
 
 # run program here
 try:
-    x = float(input("X Position: "))
-    y = float(input("Y Position: "))
+    while True:
+        x = float(input("X Position: ")) * 40
+        y = float(input("Y Position: ")) * 40
 
-    time.sleep(1)
+        time.sleep(1)
 
-    speed = 5
-    # turn 180 for the y direction
-    mult = 1
-    if(y < 0):
-        mult = -1
-    currDist = drive.getLeftCM()
+        speed = 5
+        # turn 180 for the y direction
+        mult = 1
+        if(y < 0):
+            mult = -1
+        currDist = drive.getLeftCM()
 
-    drive.setCM(mult * speed,mult * speed)
-    while abs(drive.getLeftCM() - currDist) < abs(y):
-        time.sleep(UPDATERATE)
-    
-    drive.setCM(0,0)
-    
-    if(x > 0):
-        angle = 90
-    elif(x < 0):
-        angle = -90
-
-    while not drive.turnAngle(angle, gyro.getPosition()):
-        print("turning")
-        gyro.updateGyro()
-        time.sleep(UPDATERATE)
-
-    drive.setCM(speed,speed)
-    currDist = drive.getLeftCM()
-
-    while abs(drive.getLeftCM() - currDist) < abs(x):
-        time.sleep(UPDATERATE)
+        drive.setCM(mult * speed,mult * speed)
+        while abs(drive.getLeftCM() - currDist) < abs(y):
+            time.sleep(UPDATERATE)
         
-    drive.setCM(0,0)
+        drive.setCM(0,0)
+        
+        mult = 1
+        if(x < 0):
+            mult = -1
+
+        while not drive.turnAngle(90, gyro.getPosition()) and abs(x) > 0.01:
+            print("turning")
+            gyro.updateGyro()
+            time.sleep(UPDATERATE)
+
+        drive.setCM(speed * mult,speed * mult)
+        currDist = drive.getLeftCM()
+
+        while abs(drive.getLeftCM() - currDist) < abs(x):
+            time.sleep(UPDATERATE)
+        
+        while not drive.turnAngle(0, gyro.getPosition()):
+            print("turning")
+            gyro.updateGyro()
+            time.sleep(UPDATERATE)
+
+        drive.setCM(0,0)
 
 
 
