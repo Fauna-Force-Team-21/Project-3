@@ -11,3 +11,5 @@ class Timer:
     def isTime(self):
         currTime = time.time()
         return (currTime - self.startTime) > self.howLong
+    
+    ####testing testing
