@@ -23,12 +23,6 @@ gyro = Gyroscope(5)
 gyro.zeroGyro()
 gyro.updateGyro()
 
-
-# distance sensors
-leftD1 = DistSensor(3)
-leftD2 = DistSensor(4)
-rightD = DistSensor(8)
-
 #set up drive motors
 rightMotor = BP.PORT_B
 leftMotor = BP.PORT_C
@@ -53,6 +47,7 @@ try:
 
         drive.setCM(mult * speed,mult * speed)
         while abs(drive.getLeftCM() - currDist) < abs(y):
+            print(drive.getLeftCM())
             time.sleep(UPDATERATE)
         
         drive.setCM(0,0)
@@ -60,10 +55,9 @@ try:
         mult = 1
         if(x < 0):
             mult = -1
-
-        while not drive.turnAngle(90, gyro.getYaw()) and abs(x) > 0.01:
-            print("turning")
-            gyro.updateGyro()
+        timed = Timer(3)
+        drive.setCM(-3, 3)
+        while not timed.isTime():
             time.sleep(UPDATERATE)
 
         drive.setCM(speed * mult,speed * mult)

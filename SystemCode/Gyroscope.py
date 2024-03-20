@@ -13,9 +13,12 @@ class Gyroscope():
     accelList = [0]
     lastTime = time.time()
     deltaTime = 0
-    position = 0
+    # yaw pitch roll angle
+    position = [0,0,0]
     angleRatio = 1.192
-    offset = 0
+    offset = [0,0,0]
+    pitch = "x"
+    roll = "y"
     yaw = "z"
 
 
@@ -43,8 +46,14 @@ class Gyroscope():
             self.aVelocityList.pop(0)
 
         # position values
+        avgVel = self.aVelocityList[-1][self.pitch]
+        self.position[1] += ((avgVel - self.offset[1]) * self.deltaTime * self.angleRatio)
+
+        avgVel = self.aVelocityList[-1][self.roll]
+        self.position[2] += ((avgVel - self.offset[2]) * self.deltaTime * self.angleRatio)
+
         avgVel = self.aVelocityList[-1][self.yaw]
-        self.position += ((avgVel - self.offset) * self.deltaTime * self.angleRatio)
+        self.position[0] += ((avgVel - self.offset[0]) * self.deltaTime * self.angleRatio)
 
         # updates acceleration values
         accelVal = self.myIMU.readAccel()
@@ -58,23 +67,35 @@ class Gyroscope():
     def getMagValue(self):
         return (sum(self.magList)/len(self.magList)) - self.magOffset
 
-    def getPosition(self):
-        return self.position
+    def getYaw(self):
+        return self.position[0]
+    
+    def getAngle(self):
+        return {"yaw": self.position[0], "pitch": self.position[1], "roll": self.position[2]}
 
     def zeroGyro(self):
         timer = Timer(3)
         avgList = []
+        avgList2 = []
+        avgList3 = []
+
         avgMag = []
         print("starting zero")
         while(not timer.isTime()):
+            avgList2.append(self.myIMU.readGyro()[self.pitch])
+            avgList3.append(self.myIMU.readGyro()[self.roll])
             avgList.append(self.myIMU.readGyro()[self.yaw])
+            
             listVal = self.myIMU.readMagnet()
             magMag = math.sqrt(listVal["x"]**2 + listVal["y"]**2 + listVal["z"]**2)
             if magMag != 0.0:
                 avgMag.append(magMag)
             time.sleep(0.1)
         print("done zero")
-        self.offset = sum(avgList) / len(avgList)
+        self.offset[0] = sum(avgList) / len(avgList)
+        self.offset[1] = sum(avgList2) / len(avgList2)
+        self.offset[2] = sum(avgList3) / len(avgList3)
+
         self.magOffset = sum(avgMag) / len(avgMag)
         print("angle offset is: " + str(self.offset))
         print("gyro offset is: " + str(self.magOffset))

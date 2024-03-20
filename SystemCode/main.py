@@ -41,7 +41,7 @@ try:
     time.sleep(1)
     while True:
         #drive.setCM(10,10)
-        print(gyro.getPosition())
+        print(gyro.getYaw())
         gyro.updateGyro()
         time.sleep(UPDATERATE)
 

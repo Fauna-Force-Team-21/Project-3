@@ -57,12 +57,12 @@ try:
         drive.setCM(8-power, 8+power)
         if(value < 10):
             if(leftD2.getDistance() > rightD.getDistance()):
-                while not drive.turnAngle(-90, gyro.getPosition()):
+                while not drive.turnAngle(-90, gyro.getYaw()):
                     print("turning left")
                     gyro.updateGyro()
                     time.sleep(UPDATERATE)
             elif(leftD2.getDistance() < rightD.getDistance()):
-                while not drive.turnAngle(90, gyro.getPosition()):
+                while not drive.turnAngle(90, gyro.getYaw()):
                     print("turning right")
                     gyro.updateGyro()
                     time.sleep(UPDATERATE)

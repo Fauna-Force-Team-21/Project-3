@@ -3,7 +3,8 @@ import brickpi3
 
 
 class DriveTrain:
-    wheelRad = 7 / 2
+    #wheelRad = 7 / 2
+    wheelRad = 8/2
     gRatio = 1
     degreeToCM = 1 / 360 * wheelRad * 2 * math.pi
 
