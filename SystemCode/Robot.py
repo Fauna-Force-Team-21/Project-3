@@ -18,6 +18,7 @@ class Robot():
     UPDATERATE = 0.05
 
     BP = brickpi3.BrickPi3()
+    BP.set_sensor_type(BP.PORT_1, BP.SENSOR_TYPE.EV3_ULTRASONIC_CM)
 
     # set up gyroscope
     gyro = Gyroscope(5)
