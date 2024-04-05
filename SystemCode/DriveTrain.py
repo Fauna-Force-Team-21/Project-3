@@ -33,9 +33,9 @@ class DriveTrain:
         p = 0.4
         error = (setpoint - currAngle)
         power = error * p
-        power = min(max(power, -3), 3)
+        power = min(max(power, -5), 5)
         self.setCM(power, -power)
-        return abs(error) < 0.5
+        return abs(error) < 0.25
 
     def resetEncoders(self):
         self.BP.offset_motor_encoder(self.mPortL, self.BP.get_motor_encoder(self.mPortL))
