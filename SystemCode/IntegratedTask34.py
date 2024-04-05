@@ -50,19 +50,23 @@ try:
         y3 = float(input("Y Position: ")) * 40
         x4 = float(input("X Position: ")) * 40
         y4 = float(input("Y Position: ")) * 40 
-        match (counter):
-            case 0:
-                x = x1 - originX
-                y = y1 - originX
-            case 1:
-                x = x2 - x1
-                y = y2 - y1
-            case 2:
-                x = x3 - x2
-                y = y3 - y2
-            case 3:
-                x = x4 - x3
-                y = y4 - y3
+        
+        if counter == 0:
+            x = x1 - originX
+            y = y1 - originX
+        if counter == 1:
+            x = x2 - x1
+            y = y2 - y1
+        if counter == 2:
+            x = x3 - x2
+            y = y3 - y2
+        if counter == 3:
+            x = x4 - x3
+            y = y4 - y3
+                
+        counter = counter + 1
+
+            
         counter = counter + 1
         
         
