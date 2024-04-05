@@ -23,3 +23,6 @@ class Mapper():
         irVal = True if currBlock["isIR"] or isIR else False
         magVal = True if currBlock["isMag"] or isMag else False
         self.map[blockX][blockY] = {"Marked": True, "isIR": irVal, "isMag": magVal}
+
+    def returnMap(self):
+        return self.map

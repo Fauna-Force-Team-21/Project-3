@@ -17,11 +17,17 @@ class Odometry():
         self.deltaTime = time.time() - self.lastTime
         self.rV = (vRight + vLeft) / 2
         self.angle = angle
-        self.xPos = self.xPos + (self.rV * self.deltaTime * math.cos(angle))
-        self.yPos = self.xPos + (self.rV * self.deltaTime * math.sin(angle))
+        self.xPos = self.xPos + (self.rV * self.deltaTime * math.sin(angle))
+        self.yPos = self.xPos + (self.rV * self.deltaTime * math.cos(angle))
 
         self.lastTime = time.time()
         
 
     def returnPosition(self):
         return self.xPos, self.yPos
+    
+    def getXPosition(self):
+        return self.xPos
+    
+    def getYPosition(self):
+        return self.yPos

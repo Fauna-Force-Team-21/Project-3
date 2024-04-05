@@ -1,4 +1,6 @@
 import time
+from Mapper import Mapper
+from Odometry import Odometry
 import grovepi
 import brickpi3
 import math
@@ -39,3 +41,7 @@ class Robot():
 
     # set up IR sensor
     irSensor = AnalogIR("A2")
+
+    # set up data tracker
+    odometry = Odometry()
+    mapper = Mapper(10,10,40)

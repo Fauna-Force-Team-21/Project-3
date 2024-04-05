@@ -13,6 +13,8 @@ class DriveTrain:
     mPortR = None
     leftMult = None
     rightMult = None
+    leftVel = None
+    rightVel = None
 
     def __init__(self, BP, mPortL, mPortR, leftMult, rightMult):
         self.BP = BP
@@ -22,12 +24,10 @@ class DriveTrain:
         self.rightMult = rightMult
 
     def setCM(self, CMLeft, CMRight):
+        self.leftVel = CMLeft
+        self.rightVel = CMRight
         self.BP.set_motor_dps(self.mPortL, self.leftMult * CMLeft / self.degreeToCM * self.gRatio)
         self.BP.set_motor_dps(self.mPortR, self.rightMult * CMRight / self.degreeToCM * self.gRatio)
-
-    def setPower(self, left, right):
-        self.BP.set_motor_power(self.mPortL, left * self.leftMult)
-        self.BP.set_motor_power(self.mPortR, right * self.rightMult)
 
     def turnAngle(self, setpoint, currAngle):
         p = 0.4
@@ -46,4 +46,10 @@ class DriveTrain:
     
     def getLeftCM(self):
         return self.BP.get_motor_encoder(self.mPortL) * self.degreeToCM / self.gRatio
+    
+    def getLeftVelocity(self):
+        return self.leftVel
+    
+    def getRightVelocity(self):
+        return self.rightVel
     
