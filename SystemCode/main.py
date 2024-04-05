@@ -22,7 +22,7 @@ try:
         robot.gyro.updateGyro()
         
         robot.odometry.update(robot.drive.getLeftVelocity(), robot.drive.getRightVelocity(), robot.gyro.getYaw())
-        robot.mapper.update(robot.odometry.getXPosition, robot.odometry.getYPosition(), False, False)
+        robot.mapper.update(robot.odometry.getXPosition(), robot.odometry.getYPosition(), False, False)
         time.sleep(robot.UPDATERATE)
 
 
