@@ -37,15 +37,35 @@ drive.resetEncoders()
 
 
 
+counter = 0
 try:
     while True:
-        x = float(input("X Position: ")) * 40
-        y = float(input("Y Position: ")) * 40
-        radiationX = float(input("X position of the radiation source: ")) * 40
-        radiationY = float(input("Y position of the radiation source: ")) * 40
-        magneticX = float(input("X position of the magnetic source: ")) * 40
-        magneticY = float(input("Y position of the magnetic source: ")) * 40
-        r = float(input("What is the radius of the position: ")) * 40
+        originX = 0
+        originY = 0
+        x1 = float(input("X Position: ")) * 40
+        y1 = float(input("Y Position: ")) * 40
+        x2 = float(input("X Position: ")) * 40
+        y2 = float(input("Y Position: ")) * 40
+        x3 = float(input("X Position: ")) * 40
+        y3 = float(input("Y Position: ")) * 40
+        x4 = float(input("X Position: ")) * 40
+        y4 = float(input("Y Position: ")) * 40 
+        match (counter):
+            case 0:
+                x = x1 - originX
+                y = y1 - originX
+            case 1:
+                x = x2 - x1
+                y = y2 - y1
+            case 2:
+                x = x3 - x2
+                y = y3 - y2
+            case 3:
+                x = x4 - x3
+                y = y4 - y3
+        counter = counter + 1
+        
+        
 
         time.sleep(1)
 
