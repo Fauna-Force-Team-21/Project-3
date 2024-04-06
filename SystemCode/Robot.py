@@ -43,5 +43,18 @@ class Robot():
     irSensor = AnalogIR("A2")
 
     # set up data tracker
-    odometry = Odometry()
-    mapper = Mapper(10,10,40)
+    odometry = None
+    mapper = None
+    
+
+    def __init__(self, mapNum, x, y):
+        self.odometry = Odometry(x, y)
+        self.mapper = Mapper(10,10,40, mapNum)
+        self.mapper.initOrgin(x,y)
+
+
+    def update(self):
+        self.gyro.updateGyro()
+        self.odometry.update(self.drive.getLeftVelocity(), self.drive.getRightVelocity(), self.gyro.getYaw())
+        self.mapper.update(self.odometry.getXPosition(), self.odometry.getYPosition(), False, False, self.irSensor.getAvg(), self.gyro.getMagValue())
+        time.sleep(self.UPDATERATE)

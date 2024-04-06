@@ -1,4 +1,6 @@
 import time
+from DriveTo import DriveTo
+from TurnTo import TurnTo
 import grovepi
 import brickpi3
 import math
@@ -11,19 +13,27 @@ from Gyroscope import Gyroscope
 from Timer import Timer
 
 
-robot = Robot()
+
 
 # run program here
 try:
+    mapNumber = int(input("Input Map Number: "))
+    x = int(input("Offset X: "))
+    y = int(input("Offset Y: "))
+
+    robot = Robot(mapNumber, x,y)
     time.sleep(1)
+
+    DriveTo(robot, 8, 40)
+    TurnTo(robot, 90)
+
     while True:
         #drive.setCM(10,10)
         print(robot.gyro.getYaw())
-        robot.gyro.updateGyro()
+
         
-        robot.odometry.update(robot.drive.getLeftVelocity(), robot.drive.getRightVelocity(), robot.gyro.getYaw())
-        robot.mapper.update(robot.odometry.getXPosition(), robot.odometry.getYPosition(), False, False)
-        time.sleep(robot.UPDATERATE)
+        robot.update()
+        
 
 
 
