@@ -1,6 +1,5 @@
 import time
-from Mapper import Mapper
-from Odometry import Odometry
+
 import grovepi
 import brickpi3
 import math
@@ -11,6 +10,9 @@ from DistSensor import DistSensor
 from DriveTrain import DriveTrain
 from Gyroscope import Gyroscope
 from AnalogIR import AnalogIR
+from Manipulator import Manipulator
+from Mapper import Mapper
+from Odometry import Odometry
 from Timer import Timer
 
 class Robot():
@@ -39,6 +41,11 @@ class Robot():
     drive = DriveTrain(BP, leftMotor, rightMotor, -1, -1)
     drive.resetEncoders()
 
+    # set up cargo dropper
+    armMotor = BP.PORT_D
+    cargoHolder = Manipulator(BP, armMotor, -1)
+    cargoHolder.resetEncoders()
+
     # set up IR sensor
     irSensor = AnalogIR("A2")
 
@@ -52,6 +59,11 @@ class Robot():
         self.mapper = Mapper(10,10,40, mapNum)
         self.mapper.initOrgin(x,y)
 
+    def getFrontDistance(self):
+        try:
+            return self.BP.get_sensor(self.BP.PORT_1)
+        except:
+            return 999
 
     def update(self):
         self.gyro.updateGyro()

@@ -44,7 +44,7 @@ try:
 
         time.sleep(1)
 
-        speed = 5
+        speed = 20
         # turn 180 for the y direction
         mult = 1
         if(y < 0):

@@ -46,14 +46,16 @@ class Gyroscope():
             self.aVelocityList.pop(0)
 
         # position values
+        avgVel = self.aVelocityList[-1][self.yaw]
+        self.position[0] += ((avgVel - self.offset[0]) * self.deltaTime * self.angleRatio)
+        
         avgVel = self.aVelocityList[-1][self.pitch]
         self.position[1] += ((avgVel - self.offset[1]) * self.deltaTime * self.angleRatio)
 
         avgVel = self.aVelocityList[-1][self.roll]
         self.position[2] += ((avgVel - self.offset[2]) * self.deltaTime * self.angleRatio)
 
-        avgVel = self.aVelocityList[-1][self.yaw]
-        self.position[0] += ((avgVel - self.offset[0]) * self.deltaTime * self.angleRatio)
+        
 
         # updates acceleration values
         accelVal = self.myIMU.readAccel()
@@ -74,7 +76,7 @@ class Gyroscope():
         return {"yaw": self.position[0], "pitch": self.position[1], "roll": self.position[2]}
 
     def zeroGyro(self):
-        timer = Timer(3)
+        timer = Timer(5)
         avgList = []
         avgList2 = []
         avgList3 = []
@@ -82,9 +84,9 @@ class Gyroscope():
         avgMag = []
         print("starting zero")
         while(not timer.isTime()):
+            avgList.append(self.myIMU.readGyro()[self.yaw])
             avgList2.append(self.myIMU.readGyro()[self.pitch])
             avgList3.append(self.myIMU.readGyro()[self.roll])
-            avgList.append(self.myIMU.readGyro()[self.yaw])
             
             listVal = self.myIMU.readMagnet()
             magMag = math.sqrt(listVal["x"]**2 + listVal["y"]**2 + listVal["z"]**2)

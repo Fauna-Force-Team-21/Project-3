@@ -31,26 +31,21 @@ class Mapper():
         blockY = math.floor((y) / self.blockSize)
 
         currBlock = self.map[blockX][blockY]
-
     # updates map
-        blockVal = 1 if blockX != self.xOrigin or blockY != self.yOrigin else 5
-        if currBlock["isIR"] or isIR:
+        blockVal = 5 if blockX == self.xOrigin and blockY == self.yOrigin else 1
+        if currBlock  == 2 or isIR:
             blockVal = 2
-
     # update hazard list
             for hazard in self.hazardList:
                 if hazard[3] != blockX and hazard[4] != blockY:
                     self.hazardList.append(["High Temperature Heat Source", "Radiated Power (W)", irValue, x, y])
-        
     # updates map
-        if currBlock["isMag"] or isMag:
+        if currBlock == 3 or isMag:
             blockVal = 3
-
     # update hazard list
             for hazard in self.hazardList:
                 if hazard[3] != blockX and hazard[4] != blockY:
                     self.hazardList.append(["Electrical/Magnetic Activity Source", "Field strength (uT)", magValue, x, y])
-
     # put changes into map
         self.map[blockX][blockY] = blockVal
 
