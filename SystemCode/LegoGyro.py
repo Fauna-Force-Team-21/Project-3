@@ -12,10 +12,10 @@ class LegoGyro():
         BP.set_sensor_type(port, BP.SENSOR_TYPE.EV3_GYRO_ABS_DPS)
 
 
-    def getAngle(self):
+    def getYaw(self):
         return self.BP.get_sensor(self.port) + self.offset
     
     def zeroAngle(self):
-        start = self.getAngle()
+        start = self.getYaw()
         time.sleep(1)
-        offset = (self.getAngle() - start)
+        offset = (self.getYaw() - start)

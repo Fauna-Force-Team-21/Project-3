@@ -1,5 +1,7 @@
 import time
 
+
+from LegoGyro import LegoGyro
 import grovepi
 import brickpi3
 import math
@@ -15,6 +17,7 @@ from Mapper import Mapper
 from Odometry import Odometry
 from Timer import Timer
 
+
 class Robot():
     # set up sys variables
     startTime = time.time()
@@ -28,7 +31,7 @@ class Robot():
     gyro = Gyroscope(5)
     gyro.zeroGyro()
     gyro.updateGyro()
-
+    legoGyro = LegoGyro(BP, BP.PORT_2)
 
     # distance sensors
     leftD1 = DistSensor(3)

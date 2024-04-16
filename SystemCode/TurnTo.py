@@ -1,3 +1,3 @@
 def TurnTo(robot, angle):
-    while not robot.drive.turnAngle(angle, robot.gyro.getYaw()):
+    while not robot.drive.turnAngle(0, angle - robot.gyro.getYaw()):
             robot.update()
