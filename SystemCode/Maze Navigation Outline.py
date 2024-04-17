@@ -8,7 +8,7 @@ import math
 
 
 from Robot import Robot
-
+from AnalogIR import AnalogIR
 
 robot = None
 # run program here
@@ -35,12 +35,12 @@ try:
             if robot.leftD1.getDistance() > 25 and robot.rightD.getDistance() > 25 and robot.getFrontDistance() > 25:
                 loopFlag = False
                 print("out of maze")
-        #if (IR detected):
-            #print("Turning 180 for IR")
-            #TurnTo(robot, 180)
-        #if(magnetic detected):
-            #print("Turning 180 for magnetic")
-            #TurnTo(robot, 180)
+        if (robot.irSensor.isNear()):
+            print("Turning 180 for IR")
+            TurnTo(robot, 180)
+        if(robot.getMagValue() > 300):
+            print("Turning 180 for magnetic")
+            TurnTo(robot, 180)
         if (((robot.leftD1.getDistance() and robot.leftD2.getDistance()) > 25) and robot.rightD.getDistance() < 25):
             continue
         if (((robot.leftD1.getDistance() and robot.leftD2.getDistance()) < 25) and robot.rightD.getDistance() > 25):
