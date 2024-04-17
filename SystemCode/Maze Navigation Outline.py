@@ -35,16 +35,29 @@ try:
             if robot.leftD1.getDistance() > 25 and robot.rightD.getDistance() > 25 and robot.getFrontDistance() > 25:
                 loopFlag = False
                 print("out of maze")
-        if robot.leftD1.getDistance() > 25:
-            
-        elif robot.leftD2.getDistance() > 25:
-            print("Turn Left")
-            TurnTo(robot, -90)
-        elif robot.getFrontDistance() < 20:
+        #if (IR detected):
+            #print("Turning 180 for IR")
+            #TurnTo(robot, 180)
+        #if(magnetic detected):
+            #print("Turning 180 for magnetic")
+            #TurnTo(robot, 180)
+        if (((robot.leftD1.getDistance() and robot.leftD2.getDistance()) > 25) and robot.rightD.getDistance() < 25):
+            continue
+        if (((robot.leftD1.getDistance() and robot.leftD2.getDistance()) < 25) and robot.rightD.getDistance() > 25):
             print("Turn Right")
             TurnTo(robot, 90)
-        
-        
+        if robot.getFrontDistance() < 20:
+            time.sleep(2)
+            if (robot.rightD.getDistance() < 25 and robot.leftD1.getDistance() < 25):
+                print("Turning 180 for 3 way enclosure")
+                TurnTo(robot, 180)
+                continue
+            if robot.rightD.getDistance() > 25:
+                print("Turn Right")
+                TurnTo(robot, 90)
+            elif robot.rightD.getDistance() < 25: 
+                print("Turn Left")
+                TurnTo(robot, -90) 
 
         robot.update()
 
