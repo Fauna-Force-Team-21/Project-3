@@ -13,9 +13,16 @@ class LegoGyro():
 
 
     def getYaw(self):
-        return self.BP.get_sensor(self.port) + self.offset
+        try:
+            return self.BP.get_sensor(self.port)[0] + self.offset
+        except:
+            return 0
     
-    def zeroAngle(self):
-        start = self.getYaw()
-        time.sleep(1)
-        offset = (self.getYaw() - start)
+    def getValue(self):
+        try:
+            return self.BP.get_sensor(self.port)
+        except:
+            return [0,0]
+    
+    def zeroGyro(self):
+        self.offset = -1 * self.getYaw()

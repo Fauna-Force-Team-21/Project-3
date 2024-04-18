@@ -1,6 +1,7 @@
 import time
 
 
+from ColorSensor import ColorSensor
 from LegoGyro import LegoGyro
 import grovepi
 import brickpi3
@@ -28,10 +29,11 @@ class Robot():
     BP.set_sensor_type(BP.PORT_1, BP.SENSOR_TYPE.EV3_ULTRASONIC_CM)
 
     # set up gyroscope
+    legoGyro = LegoGyro(BP, BP.PORT_3)
     gyro = Gyroscope(5)
     gyro.zeroGyro()
     gyro.updateGyro()
-    legoGyro = LegoGyro(BP, BP.PORT_2)
+    
 
     # distance sensors
     leftD1 = DistSensor(3)
@@ -55,6 +57,9 @@ class Robot():
     # set up data tracker
     odometry = None
     mapper = None
+
+    # color sensor
+    colorSensor = ColorSensor(BP, BP.PORT_4)
     
 
     def __init__(self, mapNum, x, y):
@@ -70,6 +75,6 @@ class Robot():
 
     def update(self):
         self.gyro.updateGyro()
-        self.odometry.update(self.drive.getLeftVelocity(), self.drive.getRightVelocity(), self.gyro.getYaw())
+        self.odometry.update(self.drive.getLeftVelocity(), self.drive.getRightVelocity(), self.legoGyro.getYaw())
         self.mapper.update(self.odometry.getXPosition(), self.odometry.getYPosition(), False, False, self.irSensor.getAvg(), self.gyro.getMagValue())
         time.sleep(self.UPDATERATE)

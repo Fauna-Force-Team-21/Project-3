@@ -17,7 +17,6 @@ class Odometry():
         self.deltaTime = time.time() - self.lastTime
         self.rV = (vRight + vLeft) / 2
         self.angle = math.radians(angle)
-        print(angle)
         self.xPos = self.xPos + (self.rV * self.deltaTime * math.sin(angle))
         self.yPos = self.yPos + (self.rV * self.deltaTime * math.cos(angle))
 
