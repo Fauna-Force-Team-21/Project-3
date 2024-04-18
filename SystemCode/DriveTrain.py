@@ -30,10 +30,11 @@ class DriveTrain:
         self.BP.set_motor_dps(self.mPortR, self.rightMult * CMRight / self.degreeToCM * self.gRatio)
 
     def turnAngle(self, setpoint, currAngle):
+        maxSpeed = 8
         p = 0.4
         error = (setpoint - currAngle)
         power = error * p
-        power = min(max(power, -5), 5)
+        power = min(max(power, -maxSpeed), maxSpeed)
         self.setCM(power, -power)
         return abs(error) < 0.25
 

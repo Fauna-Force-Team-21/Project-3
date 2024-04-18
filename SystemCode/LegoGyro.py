@@ -23,6 +23,6 @@ class LegoGyro():
             return self.BP.get_sensor(self.port)
         except:
             return [0,0]
-    
+        
     def zeroGyro(self):
         self.offset = -1 * self.getYaw()

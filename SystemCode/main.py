@@ -1,7 +1,7 @@
 import time
 from DriveTo import DriveTo
 from LeftAlign import LeftAlign
-from TurnTo import TurnTo
+from TurnBy import TurnTo
 import grovepi
 import brickpi3
 import math
@@ -55,8 +55,8 @@ try:
         robot.cargoHolder.setGateAngle(0)
         time.sleep(1)
         robot.cargoHolder.stopMotor()
+        robot.colorSensor.flashColor("blue")
         DriveTo(robot, 10, 10)
-
         robot.drive.setCM(0,0)
 
         # printing map
