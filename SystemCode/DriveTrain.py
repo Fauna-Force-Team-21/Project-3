@@ -7,6 +7,7 @@ class DriveTrain:
     wheelRad = 8/2
     gRatio = 1
     degreeToCM = 1 / 360 * wheelRad * 2 * math.pi
+    sensorRatio = 0.851
 
     BP = None
     mPortL = None
@@ -43,10 +44,10 @@ class DriveTrain:
         self.BP.offset_motor_encoder(self.mPortR, self.BP.get_motor_encoder(self.mPortR))
 
     def getRightCM(self):
-        return self.BP.get_motor_encoder(self.mPortR) * self.degreeToCM / self.gRatio
+        return self.rightMult * self.BP.get_motor_encoder(self.mPortR) * self.degreeToCM / self.gRatio * self.sensorRatio
     
     def getLeftCM(self):
-        return self.BP.get_motor_encoder(self.mPortL) * self.degreeToCM / self.gRatio
+        return self.leftMult * self.BP.get_motor_encoder(self.mPortL) * self.degreeToCM / self.gRatio * self.sensorRatio
     
     def getLeftVelocity(self):
         return self.leftVel

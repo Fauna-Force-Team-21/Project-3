@@ -14,13 +14,13 @@ class LegoGyro():
 
     def getYaw(self):
         try:
-            return self.BP.get_sensor(self.port)[0] + self.offset
+            return -1 * self.BP.get_sensor(self.port)[0] + self.offset
         except:
             return 0
     
     def getValue(self):
         try:
-            return self.BP.get_sensor(self.port)
+            return [-1 * self.BP.get_sensor(self.port)[0],self.BP.get_sensor(self.port)[1]]
         except:
             return [0,0]
         

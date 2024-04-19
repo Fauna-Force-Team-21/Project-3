@@ -64,7 +64,7 @@ class Robot():
 
     def __init__(self, mapNum, x, y):
         self.odometry = Odometry(x, y)
-        self.mapper = Mapper(10,10,40, mapNum)
+        self.mapper = Mapper(20,20,40, mapNum)
         self.mapper.initOrgin(x,y)
 
     def getFrontDistance(self):

@@ -1,6 +1,8 @@
 def DriveTo(robot, v, distance):
-    robot.drive.setCM(v,v)
+    robot.drive.setCM(v, v)
     start = robot.drive.getLeftCM()
-    while abs(robot.drive.getLeftCM() - start) < distance:
+    delta = 0
+    while delta < distance:
+        delta = robot.drive.getLeftCM() - start
         robot.update()
     robot.drive.setCM(0,0)
