@@ -33,7 +33,7 @@ class Gyroscope():
 
         # updates magnetic sensor values
         listVal = self.myIMU.readMagnet()
-        magMag = math.sqrt(listVal["x"]**2 + listVal["y"]**2 + listVal["z"]**2)
+        magMag = [listVal["x"],listVal["y"],listVal["z"]]
         if magMag != 0.0:
             self.magList.append(magMag) 
             if len(self.magList) > self.NUMSTORED:
@@ -67,7 +67,7 @@ class Gyroscope():
         
 
     def getMagValue(self):
-        return (sum(self.magList)/len(self.magList)) - self.magOffset
+        return self.magList[-1] - self.magOffset
 
     def getYaw(self):
         return self.position[0]
@@ -89,8 +89,8 @@ class Gyroscope():
             avgList3.append(self.myIMU.readGyro()[self.roll])
             
             listVal = self.myIMU.readMagnet()
-            magMag = math.sqrt(listVal["x"]**2 + listVal["y"]**2 + listVal["z"]**2)
-            if magMag != 0.0:
+            magMag = [listVal["x"],listVal["y"],listVal["z"]]
+            if sum(magMag) != 0.0:
                 avgMag.append(magMag)
             time.sleep(0.1)
         print("done zero")
@@ -98,7 +98,8 @@ class Gyroscope():
         self.offset[1] = sum(avgList2) / len(avgList2)
         self.offset[2] = sum(avgList3) / len(avgList3)
 
-        self.magOffset = sum(avgMag) / len(avgMag)
+        self.magOffset = [avgMag[-1][0],avgMag[-1][1],avgMag[-1][2]]
+
         print("angle offset is: " + str(self.offset))
         print("gyro offset is: " + str(self.magOffset))
 
