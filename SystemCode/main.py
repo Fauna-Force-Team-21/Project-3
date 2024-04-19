@@ -17,7 +17,7 @@ maxDist = 50
 
 try:
     loopFlag = True
-    testing = False
+    testing = True
     if testing == True:
         mapNumber = 0
         x = 0
@@ -45,7 +45,7 @@ try:
             elif (robot.irSensor.isNear()):
                 print("Turning 180 for IR")
                 TurnTo(robot, 180)
-            elif(robot.gyro.getMagValue()[0] > 300):
+            elif(robot.gyro.getMagValue() > 300):
                 print("Turning 180 for magnetic")
                 TurnTo(robot, 180)
             elif robot.getFrontDistance() < 25:
@@ -108,9 +108,8 @@ try:
         robot.mapper.printHazards()
         
     while testing:
-        print(robot.gyro.getGyroValue())
-        #print(robot.irSensor.getAvg())
-        robot.update()
+        FrontAlign(robot)
+        time.sleep(5)
 
 
 
