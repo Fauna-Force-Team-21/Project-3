@@ -65,6 +65,8 @@ class Gyroscope():
         
         self.lastTime = time.time()
         
+    def getRawMag(self):
+        return self.myIMU.readMagnet()
 
     def getMagValue(self):
         return (sum(self.magList)/len(self.magList)) - self.magOffset

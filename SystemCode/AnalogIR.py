@@ -18,8 +18,17 @@ class AnalogIR():
             print("Invalid IR Sensor port")
     
     def getVal(self):
-        leftVal = grovepi.analogRead(self.leftPort)
-        rightVal = grovepi.analogRead(self.rightPort)
+        leftVal = 0
+        rightVal = 0
+        try:
+            leftVal = grovepi.analogRead(self.leftPort)
+        except:
+            leftVal = 0
+        try:
+            rightVal = grovepi.analogRead(self.rightPort)
+        except:
+            rightVal = 0
+        
         return [leftVal, rightVal]
     
     def getAvg(self):

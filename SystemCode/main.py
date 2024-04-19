@@ -108,7 +108,9 @@ try:
         robot.mapper.printHazards()
         
     while testing:
-        FrontAlign(robot)
+        #print(robot.gyro.getRawMag())
+        #print(robot.irSensor.getVal())
+        print(robot.getFrontDistance())
         time.sleep(5)
 
 
