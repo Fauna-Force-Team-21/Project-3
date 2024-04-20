@@ -1,6 +1,6 @@
 def FrontAlign(robot):
     pid = 1.5 #0.8
-    frontSpace = 5
+    frontSpace = 11
     power = 1
     while abs(power) > .25:
         dist = robot.getFrontDistance()

@@ -17,7 +17,7 @@ maxDist = 50
 
 try:
     loopFlag = True
-    testing = True
+    testing = False
     if testing == True:
         mapNumber = 0
         x = 0
@@ -32,13 +32,13 @@ try:
 
     if not testing:
         while loopFlag:
-            DriveTo(robot, 10, 40)
+            DriveTo(robot, 10, 39)
             LeftAlign(robot)
-            print("front: " + str(robot.getFrontDistance()))
+            print("front: " + str(robot.getFrontDistance()) + "\nleft: " + str(robot.leftD1) + "\nright: " + str(robot.rightD))
 
             if robot.leftD1.getDistance() > maxDist and robot.rightD.getDistance() > maxDist and robot.getFrontDistance() > maxDist:
                 print("is out of maze?")
-                DriveTo(robot, 10, 40)
+                DriveTo(robot, 10, 20)
                 if robot.leftD1.getDistance() > maxDist and robot.rightD.getDistance() > maxDist and robot.getFrontDistance() > maxDist:
                     loopFlag = False
                     print("out of maze")
@@ -50,13 +50,11 @@ try:
                 TurnTo(robot, 180)
             elif robot.getFrontDistance() < 25:
                 FrontAlign(robot)
-                time.sleep(2)
-                if (robot.rightD.getDistance() < 25 and robot.leftD1.getDistance() < 20):
+                if (robot.rightD.getDistance() < 25 and robot.leftD1.getDistance() < 25):
                     print("Turning 180 for 3 way enclosure")
                     TurnTo(robot, 180)
                     LeftAlign(robot)
-                    continue
-                if robot.rightD.getDistance() > 25:
+                elif robot.rightD.getDistance() > 25:
                     print("Turn Right")
                     TurnTo(robot, 90)
                     LeftAlign(robot)
