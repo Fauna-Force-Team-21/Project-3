@@ -1,8 +1,6 @@
 import time
 import math
 
-from Robot import Robot
-
 class Odometry():
     lastTime = time.time()
     deltaTime = 0
@@ -26,14 +24,13 @@ class Odometry():
 
         self.lastTime = time.time()
 
-    def update(self: float, angle: float, robot: Robot):
+    def update(self, angle: float, robot):
         self.deltaTime = time.time() - self.lastTime
         vx = (robot.drive.getLeftCM() - self.lastX) / self.deltaTime
         vy = (robot.drive.getRightCM() - self.lastY) / self.deltaTime
+        self.lastX = robot.drive.getLeftCM()
+        self.lastY = robot.drive.getRightCM()
         self.deltaPos = (vx + vy) / 2 * self.deltaTime
-        robot.drive.getRightCM()
-
-
         self.radAngle = math.radians(angle)
         self.xPos = self.xPos + (self.deltaPos * math.sin(self.radAngle))
         self.yPos = self.yPos + (self.deltaPos * math.cos(self.radAngle))

@@ -17,6 +17,7 @@ class Gyroscope():
     position = [0,0,0]
     angleRatio = 1.192
     offset = [0,0,0]
+    zmagOffset = 0
     pitch = "x"
     roll = "y"
     yaw = "z"
@@ -38,6 +39,8 @@ class Gyroscope():
             self.magList.append(magMag) 
             if len(self.magList) > self.NUMSTORED:
                 self.magList.pop(0)
+
+        
         
         # angular velocity sensor values
         velocityVal = self.myIMU.readGyro()
@@ -67,6 +70,9 @@ class Gyroscope():
         
     def getRawMag(self):
         return self.myIMU.readMagnet()
+    
+    def getZMag(self):
+        return self.myIMU.readMagnet()["z"] - self.zmagOffset
 
     def getMagValue(self):
         return (sum(self.magList)/len(self.magList)) - self.magOffset
@@ -83,6 +89,8 @@ class Gyroscope():
         avgList2 = []
         avgList3 = []
 
+        avgZMag = []
+
         avgMag = []
         print("starting zero")
         while(not timer.isTime()):
@@ -94,11 +102,17 @@ class Gyroscope():
             magMag = math.sqrt(listVal["x"]**2 + listVal["y"]**2 + listVal["z"]**2)
             if magMag != 0.0:
                 avgMag.append(magMag)
+
+            zMag = listVal["z"]
+            if zMag != 0.0:
+                avgZMag.append(zMag)
             time.sleep(0.1)
         print("done zero")
         self.offset[0] = sum(avgList) / len(avgList)
         self.offset[1] = sum(avgList2) / len(avgList2)
         self.offset[2] = sum(avgList3) / len(avgList3)
+
+        self.zmagOffset = sum(avgZMag) / len(avgZMag)
 
         self.magOffset = sum(avgMag) / len(avgMag)
         print("angle offset is: " + str(self.offset))

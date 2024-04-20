@@ -1,4 +1,4 @@
-def DriveTo(robot, v, distance):
+def DriveTo(robot, v: float, distance: float):
     robot.drive.setCM(v, v)
     start = robot.drive.getLeftCM()
     delta = 0

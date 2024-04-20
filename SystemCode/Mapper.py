@@ -63,7 +63,7 @@ class Mapper():
         self.map[blockY][blockX] = points
 
     def getMap(self):
-        textMap = ""
+        textMap = []
         for j in self.map:
             row = ""
             for i in j:
@@ -71,10 +71,13 @@ class Mapper():
                 if i.isBeen == True:
                     point = "1"
                 row += point + " | "
-            textMap += row + "\n"
+            textMap.append(row)
 
         textMap.reverse()
-        return textMap
+        finalString = ""
+        for i in textMap:
+            finalString += i + "\n"
+        return finalString
     
     # prints map to a csv file
     def printMap(self):

@@ -1,4 +1,5 @@
 import time
+from DriveLine import DriveLine
 from DriveTo import DriveTo
 from FrontAlign import FrontAlign
 from LeftAlign import LeftAlign
@@ -32,7 +33,7 @@ try:
 
     if not testing:
         while loopFlag:
-            DriveTo(robot, 10, 39)
+            DriveLine(robot, 10, 39)
             LeftAlign(robot)
             #print("front: " + str(robot.getFrontDistance()) + "\nleft: " + str(robot.leftD1.getDistance()) + "\nright: " + str(robot.rightD.getDistance()))
             print("position: " + str(robot.odometry.get2D()))
