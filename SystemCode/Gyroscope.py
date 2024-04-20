@@ -120,4 +120,7 @@ class Gyroscope():
 
     def getGyroValue(self):
         return {"x": self.aVelocityList[-1]["x"], "y": self.aVelocityList[-1]["y"], "z": self.aVelocityList[-1]["z"]}
+    def magneticDistance(self):
+        x = (83660 / self.getZMag()) ** (1 / 2.226)
+        return x 
     

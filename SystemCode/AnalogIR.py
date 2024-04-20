@@ -1,5 +1,5 @@
 import grovepi
-
+import math
 class AnalogIR():
     leftPort = None
     rightPort = None
@@ -36,3 +36,6 @@ class AnalogIR():
 
     def isNear(self):
         return self.getAvg() > 70
+    def IRdistance(self):
+        x = (math.log(183.76) - math.log(self.getAvg())) / 0.022
+        return x 
