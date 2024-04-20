@@ -4,7 +4,7 @@ class AnalogIR():
     leftPort = None
     rightPort = None
 
-    def __init__(self, portName):
+    def __init__(self, portName: int):
         if portName == "A0":
             self.leftPort = 14
             self.rightPort = 15 

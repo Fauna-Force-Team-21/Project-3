@@ -13,7 +13,7 @@ from Robot import Robot
 
 robot = None
 # run program here
-maxDist = 50
+maxDist = 40
 
 try:
     loopFlag = True
@@ -34,12 +34,14 @@ try:
         while loopFlag:
             DriveTo(robot, 10, 39)
             LeftAlign(robot)
-            print("front: " + str(robot.getFrontDistance()) + "\nleft: " + str(robot.leftD1) + "\nright: " + str(robot.rightD))
+            #print("front: " + str(robot.getFrontDistance()) + "\nleft: " + str(robot.leftD1.getDistance()) + "\nright: " + str(robot.rightD.getDistance()))
+            print("position: " + str(robot.odometry.get2D()))
+            print(robot.mapper.getMap())
 
             if robot.leftD1.getDistance() > maxDist and robot.rightD.getDistance() > maxDist and robot.getFrontDistance() > maxDist:
                 print("is out of maze?")
-                DriveTo(robot, 10, 20)
-                if robot.leftD1.getDistance() > maxDist and robot.rightD.getDistance() > maxDist and robot.getFrontDistance() > maxDist:
+                DriveTo(robot, 10, 39)
+                if robot.leftD1.getDistance() > maxDist * 2 / 3 and robot.rightD.getDistance() > maxDist and robot.getFrontDistance() > maxDist:
                     loopFlag = False
                     print("out of maze")
             elif (robot.irSensor.isNear()):
@@ -53,21 +55,19 @@ try:
                 if (robot.rightD.getDistance() < 25 and robot.leftD1.getDistance() < 25):
                     print("Turning 180 for 3 way enclosure")
                     TurnTo(robot, 180)
-                    LeftAlign(robot)
                 elif robot.rightD.getDistance() > 25:
                     print("Turn Right")
                     TurnTo(robot, 90)
-                    LeftAlign(robot)
                 elif robot.rightD.getDistance() < 25: 
                     print("Turn Left")
                     TurnTo(robot, -90)
-                    LeftAlign(robot)
             elif (((robot.leftD1.getDistance() and robot.leftD2.getDistance()) > 25) and robot.rightD.getDistance() < 25):
+                LeftAlign(robot)
                 continue
             elif (((robot.leftD1.getDistance() and robot.leftD2.getDistance()) < 25) and robot.rightD.getDistance() > 25):
                 print("Turn Right")
                 TurnTo(robot, 90)
-                LeftAlign(robot)
+            LeftAlign(robot)
 
             """
             DriveTo(robot, 10, 20)
@@ -95,15 +95,17 @@ try:
         robot.cargoHolder.setGateAngle(100)
         time.sleep(2)
         robot.cargoHolder.setGateAngle(0)
+        robot.colorSensor.flashColor("blue")
         time.sleep(1)
         robot.cargoHolder.stopMotor()
-        robot.colorSensor.flashColor("blue")
         DriveTo(robot, 10, 10)
         robot.drive.setCM(0,0)
 
         # printing map
         robot.mapper.printMap()
         robot.mapper.printHazards()
+
+        print("End Program")
         
     while testing:
         #print(robot.gyro.getRawMag())

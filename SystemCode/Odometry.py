@@ -1,30 +1,49 @@
 import time
 import math
 
+from Robot import Robot
+
 class Odometry():
     lastTime = time.time()
     deltaTime = 0
     xPos = None
     yPos = None
-    rV = 0
-    angle = None
+    lastX = 0
+    lastY = 0
+    deltaPos = 0
+    radAngle = None
     def __init__(self, x, y):
         self.xPos = x
         self.yPos = y
         self.lastTime = time.time()
 
-    def update(self, vLeft, vRight, angle):
+    def update(self, vLeft: float, vRight: float, angle: float):
         self.deltaTime = time.time() - self.lastTime
-        self.rV = (vRight + vLeft) / 2
-        self.angle = math.radians(angle)
-        self.xPos = self.xPos + (self.rV * self.deltaTime * math.sin(angle))
-        self.yPos = self.yPos + (self.rV * self.deltaTime * math.cos(angle))
+        self.deltaPos = (vRight + vLeft) / 2 * self.deltaTime
+        self.radAngle = math.radians(angle)
+        self.xPos = self.xPos + (self.deltaPos * math.sin(self.radAngle))
+        self.yPos = self.yPos + (self.deltaPos * math.cos(self.radAngle))
 
         self.lastTime = time.time()
-        
+
+    def update(self: float, angle: float, robot: Robot):
+        self.deltaTime = time.time() - self.lastTime
+        vx = (robot.drive.getLeftCM() - self.lastX) / self.deltaTime
+        vy = (robot.drive.getRightCM() - self.lastY) / self.deltaTime
+        self.deltaPos = (vx + vy) / 2 * self.deltaTime
+        robot.drive.getRightCM()
+
+
+        self.radAngle = math.radians(angle)
+        self.xPos = self.xPos + (self.deltaPos * math.sin(self.radAngle))
+        self.yPos = self.yPos + (self.deltaPos * math.cos(self.radAngle))
+        self.lastTime = time.time()
 
     def getPosition(self):
         return self.xPos, self.yPos
+    
+    def get2D(self):
+        return self.xPos, self.yPos, self.radAngle
     
     def getXPosition(self):
         return self.xPos

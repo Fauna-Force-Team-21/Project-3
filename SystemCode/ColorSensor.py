@@ -9,7 +9,7 @@ class ColorSensor:
     lastState = None
     sensorValues = [0,0,0,0,0,0,0,0,0,0]
 
-    def __init__(self, BP, port):
+    def __init__(self, BP, port: int):
         self.port = port
         self.BP = BP
 
