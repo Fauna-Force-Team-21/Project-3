@@ -11,8 +11,8 @@ class Odometry():
     deltaPos = 0
     radAngle = None
     def __init__(self, x, y):
-        self.xPos = x
-        self.yPos = y
+        self.xPos = x * 40 + 20
+        self.yPos = y * 40
         self.lastTime = time.time()
 
     def update(self, vLeft: float, vRight: float, angle: float):

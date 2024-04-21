@@ -3,7 +3,7 @@ import math
 
 def DriveLine(robot, v: float, distance: float):
     p = 0.40
-    walMin = 9
+    walMin = 5
     start = robot.odometry.getPosition()
     delta = 0
     while delta < distance:
@@ -14,11 +14,10 @@ def DriveLine(robot, v: float, distance: float):
             rot = walMin - robot.leftD1.getDistance()
         elif robot.rightD.getDistance() < walMin:
             rot = robot.rightD.getDistance() - walMin
-        else:
-            errorRot = robot.leftD2.getDistance() - robot.leftD1.getDistance()
-            if errorRot < 10 or robot.leftD1.getDistance() < 15:
-                rot = errorRot
-            
+
+        if abs(rot) > 2:
+            rot = 0
+
         rot = rot * p
         robot.drive.setCM(v + rot, v - rot)
         robot.update()

@@ -17,7 +17,7 @@ robot = None
 maxDist = 40
 
 try:
-    loopFlag = True
+    loopFlag = 1
     testing = False
     if testing == True:
         mapNumber = 0
@@ -32,42 +32,48 @@ try:
     time.sleep(1)
 
     if not testing:
-        while loopFlag:
-            DriveLine(robot, 10, 39)
+        while loopFlag == 1 or loopFlag == 2:
+            DriveLine(robot, 10, 40)
             LeftAlign(robot)
-            #print("front: " + str(robot.getFrontDistance()) + "\nleft: " + str(robot.leftD1.getDistance()) + "\nright: " + str(robot.rightD.getDistance()))
+            print("front: " + str(robot.getFrontDistance()) + "\nleft: " + str(robot.leftD1.getDistance()) + "\nright: " + str(robot.rightD.getDistance()))
             print("position: " + str(robot.odometry.get2D()))
             print(robot.mapper.getMap())
 
-            if robot.leftD1.getDistance() > maxDist and robot.rightD.getDistance() > maxDist and robot.getFrontDistance() > maxDist:
+            if robot.leftD1.getDistance() > maxDist * 2 / 3 and robot.rightD.getDistance() > maxDist and robot.getFrontDistance() > maxDist:
                 print("is out of maze?")
-                DriveTo(robot, 10, 39)
-                if robot.leftD1.getDistance() > maxDist * 2 / 3 and robot.rightD.getDistance() > maxDist and robot.getFrontDistance() > maxDist:
-                    loopFlag = False
+                if loopFlag == 2:
+                    loopFlag = 0
                     print("out of maze")
-            elif (robot.irSensor.isNear()):
-                print("Turning 180 for IR")
-                TurnTo(robot, 180)
-            elif(robot.gyro.getMagValue() > 300):
-                print("Turning 180 for magnetic")
-                TurnTo(robot, 180)
-            elif robot.getFrontDistance() < 25:
-                FrontAlign(robot)
-                if (robot.rightD.getDistance() < 25 and robot.leftD1.getDistance() < 25):
-                    print("Turning 180 for 3 way enclosure")
+                elif loopFlag == 1:
+                    loopFlag = 2
+                else:
+                    loopFlag = 1
+            else:
+                if (robot.irSensor.isNear()):
+                    print("Turning 180 for IR")
                     TurnTo(robot, 180)
-                elif robot.rightD.getDistance() > 25:
+                elif(robot.gyro.getMagValue() > 300):
+                    print("Turning 180 for magnetic")
+                    TurnTo(robot, 180)
+                elif robot.getFrontDistance() < 25:
+                    FrontAlign(robot)
+                    if (robot.rightD.getDistance() < 25 and robot.leftD1.getDistance() < 25):
+                        print("Turning 180 for 3 way enclosure")
+                        TurnTo(robot, 180)
+                    elif robot.rightD.getDistance() > 25:
+                        print("Turn Right")
+                        TurnTo(robot, 90)
+                    elif robot.rightD.getDistance() < 25: 
+                        print("Turn Left")
+                        TurnTo(robot, -90)
+                elif (((robot.leftD1.getDistance() and robot.leftD2.getDistance()) > 25) and robot.rightD.getDistance() < 25):
+                    LeftAlign(robot)
+                    continue
+                elif (((robot.leftD1.getDistance() and robot.leftD2.getDistance()) < 25) and robot.rightD.getDistance() > 25):
                     print("Turn Right")
                     TurnTo(robot, 90)
-                elif robot.rightD.getDistance() < 25: 
-                    print("Turn Left")
-                    TurnTo(robot, -90)
-            elif (((robot.leftD1.getDistance() and robot.leftD2.getDistance()) > 25) and robot.rightD.getDistance() < 25):
-                LeftAlign(robot)
-                continue
-            elif (((robot.leftD1.getDistance() and robot.leftD2.getDistance()) < 25) and robot.rightD.getDistance() > 25):
-                print("Turn Right")
-                TurnTo(robot, 90)
+                loopFlag = 1
+
             LeftAlign(robot)
 
             """
