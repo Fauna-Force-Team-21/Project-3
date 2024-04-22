@@ -41,7 +41,7 @@ class Gyroscope():
             if len(self.magList) > self.NUMSTORED:
                 self.magList.pop(0)
 
-        zMag = self.myIMU.readMagnet()["z"]
+        zMag = listVal["z"]
         if zMag != 0.0:
             self.zMagList.append(zMag) 
             if len(self.zMagList) > self.NUMSTORED:
@@ -79,7 +79,7 @@ class Gyroscope():
         return self.myIMU.readMagnet()
     
     def getZMag(self):
-        return sum(self.zMagList)/ len(self.zMagList) - self.zmagOffset
+        return sum(self.zMagList)/ len(self.zMagList) - self.zmagOffset - 50
 
     def getMagValue(self):
         return (sum(self.magList)/len(self.magList)) - self.magOffset
@@ -91,7 +91,7 @@ class Gyroscope():
         return {"yaw": self.position[0], "pitch": self.position[1], "roll": self.position[2]}
 
     def zeroGyro(self):
-        timer = Timer(5)
+        timer = Timer(4.5)
         avgList = []
         avgList2 = []
         avgList3 = []
@@ -100,6 +100,7 @@ class Gyroscope():
 
         avgMag = []
         print("starting zero")
+        time.sleep(.5)
         while(not timer.isTime()):
             avgList.append(self.myIMU.readGyro()[self.yaw])
             avgList2.append(self.myIMU.readGyro()[self.pitch])
@@ -124,6 +125,8 @@ class Gyroscope():
         self.magOffset = sum(avgMag) / len(avgMag)
         print("angle offset is: " + str(self.offset))
         print("gyro offset is: " + str(self.magOffset))
+        print("z gyro offset is: " + str(self.zmagOffset))
+
 
     def getGyroValue(self):
         return {"x": self.aVelocityList[-1]["x"], "y": self.aVelocityList[-1]["y"], "z": self.aVelocityList[-1]["z"]}

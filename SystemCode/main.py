@@ -19,6 +19,8 @@ maxDist = 40
 try:
     loopFlag = 1
     testing = False
+    hasHazard = False
+
     if testing == True:
         mapNumber = 0
         x = 0
@@ -36,17 +38,16 @@ try:
             #print("front: " + str(robot.getFrontDistance()) + "\nleft: " + str(robot.leftD1.getDistance()) + "\nright: " + str(robot.rightD.getDistance()))
             print("position: " + str(robot.odometry.get2D()))
             print("magVal: " + str(robot.gyro.getZMag()))
-            print(robot.mapper.getPrintMap())
-            hasHazard = False
+            print(robot.mapper.getMap())
 
-            if (robot.irSensor.isNear()):
+            if (not hasHazard and robot.irSensor.isNear()):
                 print("Turning 180 for IR")
                 value = robot.irSensor.getVal()
                 dist = robot.irSensor.IRdistance()
                 robot.mapper.updateIR(value, robot.odometry.get2D(), dist)
                 TurnTo(robot, 180)
                 hasHazard = True
-            elif(robot.gyro.getZMag() > 65):
+            elif(not hasHazard and robot.gyro.getZMag() > 50):
                 print("Turning 180 for magnetic")
                 value = robot.gyro.getZMag()
                 dist = robot.gyro.magneticDistance()
@@ -55,6 +56,7 @@ try:
                 hasHazard = True
             else:
                 DriveLine(robot, 10, 40)
+                hasHazard = False
             LeftAlign(robot)
 
             if robot.leftD1.getDistance() > maxDist * 2 / 3 and robot.rightD.getDistance() > maxDist and robot.getFrontDistance() > maxDist:
@@ -88,10 +90,6 @@ try:
                     TurnTo(robot, 90)
                 loopFlag = 1
             LeftAlign(robot)
-
-            if hasHazard:
-                DriveLine(robot, 10, 40)
-                LeftAlign(robot)
             robot.update()
 
 
@@ -112,7 +110,6 @@ try:
         #print(robot.irSensor.getVal())
         #print(robot.getFrontDistance())
         robot.update()
-        time.sleep(2.5)
 
 except IOError as error:
     print(error)

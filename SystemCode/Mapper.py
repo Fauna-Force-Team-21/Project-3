@@ -80,12 +80,21 @@ class Mapper():
         for j in self.map:
             row = ""
             for i in j:
-                point = " 0"
-                if i.isBeen == True:
-                    point = " 1"
-                row += point
+                point = "0"
+                if i.isOrigin:
+                    point = "5"
+                elif i.isIR:
+                    point = "2"
+                elif i.isMag:
+                    point = "3"
+                elif i.isEnd:
+                    point = "4"
+                elif i.isBeen:
+                    point = "1"
+                row = row + point + " | "
             textMap.append(row)
-            textMap.append("* " * len(i))
+            textMap.append("- " * len(j))
+
         textMap.reverse()
         finalString = ""
         for i in textMap:
@@ -95,7 +104,7 @@ class Mapper():
     def getPrintMap(self):
         textMap = []
         for j in self.map:
-            row = ""
+            row = []
             for i in j:
                 point = "0"
                 if i.isOrigin:
@@ -108,14 +117,11 @@ class Mapper():
                     point = "4"
                 elif i.isBeen:
                     point = "1"
-                row = row + point + " "
+                row.append(point)
             textMap.append(row)
 
         textMap.reverse()
-        finalString = ""
-        for i in textMap:
-            finalString += i + "\n"
-        return finalString
+        return textMap
     
     # prints map to a csv file
     def printMap(self):
