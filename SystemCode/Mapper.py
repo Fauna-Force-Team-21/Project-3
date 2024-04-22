@@ -108,7 +108,7 @@ class Mapper():
                     point = "4"
                 elif i.isBeen:
                     point = "1"
-                row += point + " "
+                row = row + point + " "
             textMap.append(row)
 
         textMap.reverse()

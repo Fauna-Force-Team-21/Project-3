@@ -37,6 +37,7 @@ try:
             print("position: " + str(robot.odometry.get2D()))
             print("magVal: " + str(robot.gyro.getZMag()))
             print(robot.mapper.getPrintMap())
+            hasHazard = False
 
             if (robot.irSensor.isNear()):
                 print("Turning 180 for IR")
@@ -44,14 +45,16 @@ try:
                 dist = robot.irSensor.IRdistance()
                 robot.mapper.updateIR(value, robot.odometry.get2D(), dist)
                 TurnTo(robot, 180)
-            elif(robot.gyro.getMagValue() > 300):
+                hasHazard = True
+            elif(robot.gyro.getZMag() > 65):
                 print("Turning 180 for magnetic")
                 value = robot.gyro.getZMag()
                 dist = robot.gyro.magneticDistance()
                 robot.mapper.updateMag(value, robot.odometry.get2D(), dist)
                 TurnTo(robot, 180)
-
-            DriveLine(robot, 10, 40)
+                hasHazard = True
+            else:
+                DriveLine(robot, 10, 40)
             LeftAlign(robot)
 
             if robot.leftD1.getDistance() > maxDist * 2 / 3 and robot.rightD.getDistance() > maxDist and robot.getFrontDistance() > maxDist:
@@ -86,6 +89,9 @@ try:
                 loopFlag = 1
             LeftAlign(robot)
 
+            if hasHazard:
+                DriveLine(robot, 10, 40)
+                LeftAlign(robot)
             robot.update()
 
 
@@ -100,21 +106,13 @@ try:
         DriveTo(robot, 10, 10)
         robot.drive.setCM(0,0)
 
-        # printing map
-        robot.mapper.printMap()
-        robot.mapper.printHazards()
-
-        print("End Program")
-        
     while testing:
-        print(robot.gyro.getMagValue())
+        print(robot.gyro.getZMag())
         #print(robot.gyro.magneticDistance())
         #print(robot.irSensor.getVal())
         #print(robot.getFrontDistance())
         robot.update()
         time.sleep(2.5)
-
-
 
 except IOError as error:
     print(error)
@@ -137,3 +135,9 @@ except KeyboardInterrupt:
     robot.cargoHolder.stopMotor()
     robot.cargoHolder.resetEncoders()
     robot.BP.reset_all()
+
+# printing map
+robot.mapper.printMap()
+robot.mapper.printHazards()
+
+print("End Program")
