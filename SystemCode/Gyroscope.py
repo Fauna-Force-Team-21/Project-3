@@ -10,6 +10,7 @@ class Gyroscope():
     magOffset = 0
     aVelocityList = [0]
     magList = [0]
+    zMagList = [0]
     accelList = [0]
     lastTime = time.time()
     deltaTime = 0
@@ -39,6 +40,12 @@ class Gyroscope():
             self.magList.append(magMag) 
             if len(self.magList) > self.NUMSTORED:
                 self.magList.pop(0)
+
+        zMag = self.myIMU.readMagnet()["z"]
+        if zMag != 0.0:
+            self.zMagList.append(zMag) 
+            if len(self.zMagList) > self.NUMSTORED:
+                self.zMagList.pop(0)
 
         
         
@@ -72,7 +79,7 @@ class Gyroscope():
         return self.myIMU.readMagnet()
     
     def getZMag(self):
-        return self.myIMU.readMagnet()["z"] - self.zmagOffset
+        return sum(self.zMagList)/ len(self.zMagList) - self.zmagOffset
 
     def getMagValue(self):
         return (sum(self.magList)/len(self.magList)) - self.magOffset
