@@ -35,9 +35,9 @@ try:
 
     if not testing:
         while loopFlag == 1 or loopFlag == 2:
-            #print("front: " + str(robot.getFrontDistance()) + "\nleft: " + str(robot.leftD1.getDistance()) + "\nright: " + str(robot.rightD.getDistance()))
+            print("front: " + str(robot.getFrontDistance()) + "\nleft: " + str(robot.leftD1.getDistance()) + "\nright: " + str(robot.rightD.getDistance()))
             print("position: " + str(robot.odometry.get2D()))
-            print("magVal: " + str(robot.gyro.getZMag()))
+            #print("magVal: " + str(robot.gyro.getZMag()))
             print(robot.mapper.getMap())
 
             if (not hasHazard and robot.irSensor.isNear()):
@@ -102,13 +102,16 @@ try:
         time.sleep(1)
         robot.cargoHolder.stopMotor()
         DriveTo(robot, 10, 10)
+        robot.colorSensor.flashColor("blue")
+        TurnTo(robot, 180)
         robot.drive.setCM(0,0)
 
     while testing:
-        print(robot.gyro.getZMag())
+        #print(robot.gyro.getZMag())
         #print(robot.gyro.magneticDistance())
         #print(robot.irSensor.getVal())
         #print(robot.getFrontDistance())
+        robot.colorSensor.flashColor("blue")
         robot.update()
 
 except IOError as error:
